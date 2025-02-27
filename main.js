@@ -14,7 +14,7 @@ if(taskText !== ""){
     const task={
         id:Date.now(),
         text:taskText,
-        Completed:false
+        completed:false
     }
     addTaskToDOM(task)
     saveToLocalStorage(task)
@@ -26,14 +26,16 @@ if(taskText !== ""){
 
 function addTaskToDOM(task){
     const li =document.createElement('li')
-    li.className=`todo-item${task.Completed ? 'completed' : ''}`
+    li.className=`todo-item ${task.completed ? 'completed' : ''}`
     li.dataset.id=task.id
     li.innerHTML =`
-             <input type="checkbox" class="completed-check" ${task.Completed ? "checked" : ""}>
+             <input type="checkbox" class="completed-check" ${task.completed ? "checked" : ""}>
             <span class="task">${task.text}</span>
             <button class="editbtn">Edit</button>
             <button class="deletebtn">Delete</button>
+
     `
+    
     todoList.appendChild(li)
     attachEventlisteners(li ,task)
 }
@@ -63,13 +65,14 @@ function attachEventlisteners(li,task){
 }
 
 
-function toggleTaskCompletion(taskId, li, isCompleted) {
+function toggleTaskCompletion(taskId, li, iscompleted) {
     const tasks = getTasksFromLocalStorage();
     const task = tasks.find(task => task.id == taskId);
     if (task) {
-        task.completed = isCompleted;
+        task.completed = iscompleted;
+        // console.log(task.completed)
         localStorage.setItem('tasks', JSON.stringify(tasks));
-        li.classList.toggle('completed', isCompleted);
+        li.classList.toggle('completed', iscompleted);
     }
 }
 // function handlecheckbox(taskId,li,iscompleted){
